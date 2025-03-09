@@ -4,19 +4,46 @@ import streamlit as st
 # Page styling
 st.set_page_config(page_title="🔐 Password Strength Meter", page_icon="🔒", layout="wide")
 
-# Custom CSS
+# Custom CSS for better responsiveness
 st.markdown("""
-<style>
-.main {text-align: center;} 
-.stTextInput {width: 60% !important; margin: auto;}
-.stButton button {width: 50%; background-color: #4CAF50; color: white; font-size: 18px;}
-.stButton button:hover{background-color: #45a049;}            
-</style>
+    <style>
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .input-container {
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+    }
+    .stButton button {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .stButton button:hover {
+        background-color: #45a049;
+    }
+    </style>
 """, unsafe_allow_html=True)
 
 # Title
-st.title("🔐 Password Strength Meter")
-st.write("📝 Enter your password to check its strength 🔍")
+st.markdown("<h1 style='text-align: center;'>🔐 Password Strength Meter</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>📝 Enter your password to check its strength 🔍</p>", unsafe_allow_html=True)
+
+# Main container
+with st.container():
+    with st.form(key="password_form"):
+        # Input field
+        password = st.text_input("🔑 Enter your password", type="password", help="🛡️ Make sure your password is strong!")
+
+        # Button
+        submit_button = st.form_submit_button("🔍 Check Strength")
 
 # Function to check password strength
 def check_password_strength(password):
@@ -57,11 +84,8 @@ def check_password_strength(password):
             for item in feedback:
                 st.write(item)
 
-# Input field
-password = st.text_input("🔑 Enter your password", type="password", help="🛡️ Make sure your password is strong!")
-
-# Button working
-if st.button("🔍 Check Strength"):
+# Run the function when the button is clicked
+if submit_button:
     if password:
         check_password_strength(password)
     else:
